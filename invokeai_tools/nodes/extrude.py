@@ -2,11 +2,11 @@ from typing import Literal
 
 import cv2
 import numpy as np
+from invokeai.app.models.image import ImageCategory, ImageField, ResourceOrigin
 from PIL import Image
 from pydantic import Field
 
-from invokeai.app.models.image import ImageField, ImageCategory, ResourceOrigin
-from .baseinvocation import BaseInvocation, InvocationContext, InvocationConfig
+from .baseinvocation import BaseInvocation, InvocationConfig, InvocationContext
 from .image import ImageOutput
 
 
