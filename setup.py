@@ -27,11 +27,11 @@ with open("README.md") as f:
 
 
 setup(
-    name="{{REPO_NAME}}",
+    name="invokeai_tools",
     version="0.0.0",
-    author="{{GIT_USER_NAME}}",
-    author_email="{{GIT_USER_EMAIL}}",
-    url="https://github.com/{{REPO_OWNER}}/{{REPO_NAME}}",
+    author="Martin Kristiansen",
+    author_email="lille.kemiker@gmail.com",
+    url="https://github.com/lillekemiker/invokeai_tools",
     packages=setuptools.find_packages(exclude=["tests"]),
     package_data={"": ["py.typed"]},
     include_package_data=True,

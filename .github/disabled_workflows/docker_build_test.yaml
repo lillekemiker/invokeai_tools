@@ -13,10 +13,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build docker image
-        run: docker build -f ./docker/Dockerfile -t {{REPO_NAME}}:test .
+        run: docker build -f ./docker/Dockerfile -t invokeai_tools:test .
 
       - name: Smoke test docker image
         run: |
-          docker run -d --rm {{REPO_NAME}}:test
+          docker run -d --rm invokeai_tools:test
           sleep 5
-          docker stop {{REPO_NAME}}:test
+          docker stop invokeai_tools:test

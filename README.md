@@ -1,4 +1,4 @@
-# {{REPO_NAME}}
+# invokeai_tools
 
 ## Installation
 

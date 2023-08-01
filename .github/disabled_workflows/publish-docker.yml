@@ -21,6 +21,6 @@ jobs:
         username: _json_key
         password: "${{ secrets.GCLOUD_JSON_KEY }}"
         registry: gcr.io
-        image_name: {{REPO_NAME}}
+        image_name: invokeai_tools
         image_tag: latest,${{ steps.get_version.outputs.VERSION }}
         dockerfile: docker/Dockerfile
