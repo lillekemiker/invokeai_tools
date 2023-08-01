@@ -1,0 +1,7 @@
+black==21.10b0
+flake8
+isort
+mypy
+pre-commit
+pytest
+pytest-cov
