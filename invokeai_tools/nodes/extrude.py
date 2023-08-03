@@ -2,12 +2,15 @@ from typing import Literal
 
 import cv2
 import numpy as np
+from invokeai.app.invocations.baseinvocation import (
+    BaseInvocation,
+    InvocationConfig,
+    InvocationContext,
+)
+from invokeai.app.invocations.image import ImageOutput
 from invokeai.app.models.image import ImageCategory, ImageField, ResourceOrigin
 from PIL import Image
 from pydantic import Field
-
-from .baseinvocation import BaseInvocation, InvocationConfig, InvocationContext
-from .image import ImageOutput
 
 
 class ExtrudeDepthInvocation(BaseInvocation):
