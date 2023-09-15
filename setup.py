@@ -19,7 +19,7 @@ def load_requirements(path: Path) -> list:
 requirements = load_requirements(REQUIREMENTS_PATH)
 
 if PRIVATE_REQUIREMENTS_PATH.exists():
-    requirements = load_requirements(PRIVATE_REQUIREMENTS_PATH)
+    requirements += load_requirements(PRIVATE_REQUIREMENTS_PATH)
 
 
 with open("README.md") as f:
@@ -28,7 +28,7 @@ with open("README.md") as f:
 
 setup(
     name="invokeai_tools",
-    version="0.0.0",
+    version="1.1.0",
     author="Martin Kristiansen",
     author_email="lille.kemiker@gmail.com",
     url="https://github.com/lillekemiker/invokeai_tools",
