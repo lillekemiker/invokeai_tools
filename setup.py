@@ -4,7 +4,6 @@ from pathlib import Path
 import setuptools
 
 REQUIREMENTS_PATH = Path(__file__).parent / "requirements.txt"
-PRIVATE_REQUIREMENTS_PATH = Path(__file__).parent / "requirements_private.txt"
 
 
 def load_requirements(path: Path) -> list:
@@ -17,9 +16,6 @@ def load_requirements(path: Path) -> list:
 
 
 requirements = load_requirements(REQUIREMENTS_PATH)
-
-if PRIVATE_REQUIREMENTS_PATH.exists():
-    requirements += load_requirements(PRIVATE_REQUIREMENTS_PATH)
 
 
 with open("README.md") as f:
