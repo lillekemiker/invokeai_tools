@@ -4,7 +4,6 @@ from pathlib import Path
 import setuptools
 
 REQUIREMENTS_PATH = Path(__file__).parent / "requirements.txt"
-PRIVATE_REQUIREMENTS_PATH = Path(__file__).parent / "requirements_private.txt"
 
 
 def load_requirements(path: Path) -> list:
@@ -18,9 +17,6 @@ def load_requirements(path: Path) -> list:
 
 requirements = load_requirements(REQUIREMENTS_PATH)
 
-if PRIVATE_REQUIREMENTS_PATH.exists():
-    requirements = load_requirements(PRIVATE_REQUIREMENTS_PATH)
-
 
 with open("README.md") as f:
     long_description = f.read()
@@ -28,7 +24,7 @@ with open("README.md") as f:
 
 setup(
     name="invokeai_tools",
-    version="0.0.0",
+    version="1.1.0",
     author="Martin Kristiansen",
     author_email="lille.kemiker@gmail.com",
     url="https://github.com/lillekemiker/invokeai_tools",
@@ -43,5 +39,5 @@ setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.10",
 )

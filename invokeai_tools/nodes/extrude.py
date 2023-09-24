@@ -1,46 +1,58 @@
-from typing import Literal
-
 import cv2
 import numpy as np
 from invokeai.app.invocations.baseinvocation import (
     BaseInvocation,
-    InvocationConfig,
+    InputField,
     InvocationContext,
+    invocation,
 )
-from invokeai.app.invocations.image import ImageOutput
-from invokeai.app.models.image import ImageCategory, ImageField, ResourceOrigin
+from invokeai.app.invocations.primitives import ImageField, ImageOutput
+from invokeai.app.models.image import ImageCategory, ResourceOrigin
 from PIL import Image
-from pydantic import Field
 
 
+@invocation(
+    "cv_extrude_depth",
+    title="Extrude Depth from Mask",
+    tags=["cv", "mask", "depth"],
+    category="controlnet",
+    version="1.1.0",
+)
 class ExtrudeDepthInvocation(BaseInvocation):
     """Node for creating fake depth by "extruding" a mask using opencv."""
 
-    # fmt: off
-    type: Literal["cv_extrude_depth"] = "cv_extrude_depth"
-
-    # Inputs
-    mask: ImageField = Field(None, description="The mask from which to extrude")
-    direction: float = Field(45., description="Extrude direction in degrees")
-    shift: int = Field(40, description="Number of pixels to shift bottom from top")
-    close_point: int = Field(180, ge=0, le=255, description="Closest extrusion depth")
-    far_point: int = Field(80, ge=0, le=255, description="Farthest extrusion depth")
-    bg_threshold: int = Field(10, ge=0, lt=255, description="Background threshold")
-    bg_depth: int = Field(0, ge=0, lt=255, description="Target background depth")
-    steps: int = Field(100, description="Number of steps in extrusion gradient")
-    invert: bool = Field(False, description="Inverts mask image before extruding")
-    # fmt: on
-
-    class Config(InvocationConfig):
-        schema_extra = {
-            "ui": {
-                "tags": ["cv", "mask", "depth"],
-            },
-        }
+    mask: ImageField = InputField(
+        default=None, description="The mask from which to extrude"
+    )
+    direction: float = InputField(
+        default=45.0, description="Extrude direction in degrees"
+    )
+    shift: int = InputField(
+        default=40, description="Number of pixels to shift bottom from top"
+    )
+    close_point: int = InputField(
+        default=180, ge=0, le=255, description="Closest extrusion depth"
+    )
+    far_point: int = InputField(
+        default=80, ge=0, le=255, description="Farthest extrusion depth"
+    )
+    bg_threshold: int = InputField(
+        default=10, ge=0, lt=255, description="Background threshold"
+    )
+    bg_depth: int = InputField(
+        default=0, ge=0, lt=255, description="Target background depth"
+    )
+    steps: int = InputField(
+        default=100, description="Number of steps in extrusion gradient"
+    )
+    invert: bool = InputField(
+        default=False, description="Inverts mask image before extruding"
+    )
 
     def extrude(self, cv_mask: np.ndarray) -> np.ndarray:
-        alpha = np.cos(self.direction / (2 * np.pi))
-        beta = np.sin(self.direction / (2 * np.pi))
+        direction_rad = self.direction * np.pi / 180
+        alpha = np.cos(direction_rad)
+        beta = np.sin(direction_rad)
         canvas = np.zeros_like(cv_mask, dtype=np.float32)
         slope = (self.close_point - self.far_point) / 255
         offset = self.far_point
@@ -93,8 +105,8 @@ class ExtrudeDepthInvocation(BaseInvocation):
             node_id=self.id,
             session_id=context.graph_execution_state_id,
             is_intermediate=self.is_intermediate,
+            workflow=self.workflow,
         )
-
         return ImageOutput(
             image=ImageField(image_name=mask_dto.image_name),
             width=mask_dto.width,
